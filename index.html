@@ -332,11 +332,71 @@
                         <div id="dashboard-cashflow-list" class="divide-y divide-slate-100"></div>
                     </div>
 
+                                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+                            <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <h2 class="font-bold text-slate-900 text-base">Jatuh Tempo & Tagihan Aktif</h2>
+                                    <p class="text-xs text-slate-500">Utang dan kredit yang perlu segera ditagih atau dicicil</p>
+                                </div>
+                                <button type="button" onclick="switchTab('tagihan')" class="text-xs font-bold text-indigo-600 hover:underline">Lihat Semua</button>
+                            </div>
+                            <div id="dashboard-due-list" class="divide-y divide-slate-100"></div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+                            <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <h2 class="font-bold text-slate-900 text-base">Transaksi Terakhir</h2>
+                                    <p class="text-xs text-slate-500">5 aktivitas jual tunai, utang & kredit terbaru</p>
+                                </div>
+                                <button type="button" onclick="switchTab('transaksi')" class="text-xs font-bold text-indigo-600 hover:underline">Semua Data</button>
+                            </div>
+                            <div id="dashboard-recent-list" class="divide-y divide-slate-100"></div>
+                        </div>
+                    </div>
+
+                    <div id="dashboard-all-transactions-list" class="hidden"></div>
+                </section>
+
+                                <!-- ========================================================= -->
+                <!-- TAB 2: DATA JUAL, UTANG & KREDIT                          -->
+                <!-- ========================================================= -->
+                <section id="tab-transaksi" class="tab-content hidden space-y-5">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div>
+                                <h2 class="font-bold text-slate-900 text-base">Daftar Transaksi Jual Tunai, Utang & Kredit</h2>
+                                <p class="text-xs text-slate-500">Kelola pembayaran, cetak struk, kirim tagihan WA, atau edit transaksi</p>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5">
+                                <button type="button" onclick="setTrxTypeFilter('ALL')" data-trxfilter="ALL" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white transition">Semua</button>
+                                <button type="button" onclick="setTrxTypeFilter('TUNAI')" data-trxfilter="TUNAI" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Tunai</button>
+                                <button type="button" onclick="setTrxTypeFilter('UTANG')" data-trxfilter="UTANG" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Utang</button>
+                                <button type="button" onclick="setTrxTypeFilter('KREDIT')" data-trxfilter="KREDIT" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Kredit</button>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <div class="relative flex-1">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                    <i class="ph ph-magnifying-glass text-lg"></i>
+                                </span>
+                                <input type="text" id="search-trx" oninput="renderTransactions()" placeholder="Cari nama pelanggan, barang, no. nota, atau catatan..."
+                                    class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white">
+                            </div>
+                            <select id="filter-trx-status" onchange="renderTransactions()" class="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="ALL">Semua Status</option>
+                                <option value="UNPAID">Belum Lunas</option>
+                                <option value="PAID">Sudah Lunas</option>
+                            </select>
+                        </div>
+                    </div>
                     <div id="transactions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </section>
 
                 <!-- ========================================================= -->
                 <!-- TAB 2B: TAGIHAN BERJALAN (PIUTANG & KREDIT AKTIF)          -->
+                <!-- ========================================================= -->
                 <!-- ========================================================= -->
                 <section id="tab-tagihan" class="tab-content hidden space-y-5">
                     <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
@@ -1190,14 +1250,21 @@ function writeSettings_(settings) {
   if (rows.length &gt; 0) sheet.getRange(2, 1, rows.length, headers.length).setValues(rows);
 }
 
-function doGet() {
+function doGet(e) {
   const data = {
     customers: readCustomers_(),
     transactions: readTransactions_(),
     settings: readSettings_() || {}
   };
+  const payload = JSON.stringify({ ok: true, data: data });
+  const cb = e && e.parameter && e.parameter.callback ? String(e.parameter.callback).replace(/[^a-zA-Z0-9_$]/g, '') : '';
+  if (cb) {
+    return ContentService
+      .createTextOutput(cb + '(' + payload + ');')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
   return ContentService
-    .createTextOutput(JSON.stringify({ ok: true, data: data }))
+    .createTextOutput(payload)
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -1815,6 +1882,67 @@ function doPost(e) {
                 }
             };
 
+            function fetchRemoteSheetJson(endpoint) {
+                const sep = endpoint.includes('?') ? '&' : '?';
+                const urlWithCacheBust = `${endpoint}${sep}_t=${Date.now()}`;
+
+                return fetch(urlWithCacheBust, {
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'omit',
+                    redirect: 'follow'
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.text();
+                })
+                .then(txt => {
+                    const cleaned = txt.trim().replace(/^[^\{\[]*/, '');
+                    return JSON.parse(cleaned);
+                })
+                .catch(() => {
+                    // Fallback JSONP script tag (sering lolos ketika fetch CORS diblokir file:// atau ekstensi browser)
+                    return new Promise((resolve, reject) => {
+                        const cbName = '__tokoYanaSheetCb_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+                        const script = document.createElement('script');
+                        let settled = false;
+
+                        const timer = setTimeout(() => {
+                            if (!settled) {
+                                settled = true;
+                                cleanup();
+                                reject(new Error('Timeout mengambil data Google Sheets'));
+                            }
+                        }, 10000);
+
+                        function cleanup() {
+                            clearTimeout(timer);
+                            try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
+                            if (script && script.parentNode) script.parentNode.removeChild(script);
+                        }
+
+                        window[cbName] = function(payload) {
+                            if (!settled) {
+                                settled = true;
+                                cleanup();
+                                resolve(payload);
+                            }
+                        };
+
+                        script.src = `${endpoint}${sep}callback=${encodeURIComponent(cbName)}&_t=${Date.now()}`;
+                        script.async = true;
+                        script.onerror = function() {
+                            if (!settled) {
+                                settled = true;
+                                cleanup();
+                                reject(new Error('Gagal memuat script Google Apps Script'));
+                            }
+                        };
+                        document.body.appendChild(script);
+                    });
+                });
+            }
+
             window.syncWithGoogleSheet = async function(showFeedback = true, mode = 'both') {
                 const endpoint = (appSettings.gsheetUrl || '').trim();
                 if (!endpoint) {
@@ -1828,40 +1956,47 @@ function doPost(e) {
                 isSyncingGsheet = true;
                 updateGoogleSheetStatusUI('syncing');
 
+                let pullSuccess = false;
+                let pushSuccess = false;
+
                 try {
                     if (mode === 'both' || mode === 'pull') {
-                        const res = await fetch(endpoint, { method: 'GET' });
-                        const json = await res.json();
-                        if (json && json.ok && json.data) {
-                            const remote = json.data;
-                            const hasRemoteRows =
-                                (Array.isArray(remote.customers) && remote.customers.length > 0) ||
-                                (Array.isArray(remote.transactions) && remote.transactions.length > 0);
-                            if (hasRemoteRows) {
-                                if (Array.isArray(remote.customers)) {
-                                    customers = remote.customers;
-                                    safeStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(customers));
+                        try {
+                            const json = await fetchRemoteSheetJson(endpoint);
+                            if (json && json.ok && json.data) {
+                                const remote = json.data;
+                                const hasRemoteRows =
+                                    (Array.isArray(remote.customers) && remote.customers.length > 0) ||
+                                    (Array.isArray(remote.transactions) && remote.transactions.length > 0);
+                                if (hasRemoteRows) {
+                                    if (Array.isArray(remote.customers) && remote.customers.length > 0) {
+                                        customers = remote.customers;
+                                        safeStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(customers));
+                                    }
+                                    if (Array.isArray(remote.transactions) && remote.transactions.length > 0) {
+                                        transactions = remote.transactions;
+                                        safeStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(transactions));
+                                    }
+                                    if (remote.settings && typeof remote.settings === 'object') {
+                                        appSettings = {
+                                            ...appSettings,
+                                            storeName: remote.settings.storeName || appSettings.storeName,
+                                            slogan: remote.settings.slogan !== undefined ? remote.settings.slogan : appSettings.slogan,
+                                            phone: remote.settings.phone !== undefined ? remote.settings.phone : appSettings.phone,
+                                            address: remote.settings.address !== undefined ? remote.settings.address : appSettings.address,
+                                            password: remote.settings.password || appSettings.password,
+                                            lockEnabled: remote.settings.lockEnabled !== undefined ? remote.settings.lockEnabled : appSettings.lockEnabled,
+                                            waTemplate: remote.settings.waTemplate || appSettings.waTemplate
+                                        };
+                                        safeStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appSettings));
+                                        applyStoreBranding();
+                                    }
+                                    refreshAllViews();
                                 }
-                                if (Array.isArray(remote.transactions)) {
-                                    transactions = remote.transactions;
-                                    safeStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(transactions));
-                                }
-                                if (remote.settings && typeof remote.settings === 'object') {
-                                    appSettings = {
-                                        ...appSettings,
-                                        storeName: remote.settings.storeName || appSettings.storeName,
-                                        slogan: remote.settings.slogan !== undefined ? remote.settings.slogan : appSettings.slogan,
-                                        phone: remote.settings.phone !== undefined ? remote.settings.phone : appSettings.phone,
-                                        address: remote.settings.address !== undefined ? remote.settings.address : appSettings.address,
-                                        password: remote.settings.password || appSettings.password,
-                                        lockEnabled: remote.settings.lockEnabled !== undefined ? remote.settings.lockEnabled : appSettings.lockEnabled,
-                                        waTemplate: remote.settings.waTemplate || appSettings.waTemplate
-                                    };
-                                    safeStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appSettings));
-                                    applyStoreBranding();
-                                }
-                                refreshAllViews();
+                                pullSuccess = true;
                             }
+                        } catch (pullErr) {
+                            pullSuccess = false;
                         }
                     }
 
@@ -1891,18 +2026,33 @@ function doPost(e) {
                             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                             body: JSON.stringify(payload)
                         });
+                        pushSuccess = true;
                     }
 
-                    appSettings.gsheetLastSync = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                    safeStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appSettings));
-                    updateGoogleSheetStatusUI('ok');
-                    if (showFeedback) {
-                        showToast('Data berhasil disinkronkan dengan Google Sheets!', 'success');
+                    if (pullSuccess || pushSuccess) {
+                        appSettings.gsheetLastSync = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                        safeStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appSettings));
+                        if (mode === 'both' && !pullSuccess && pushSuccess) {
+                            updateGoogleSheetStatusUI('ok', 'Terkirim ke Sheet');
+                            if (showFeedback) {
+                                showToast('Data terkirim ke Google Sheets (Mode Lokal aktif bila tarik data diblokir browser).', 'info');
+                            }
+                        } else {
+                            updateGoogleSheetStatusUI('ok');
+                            if (showFeedback) {
+                                showToast('Data berhasil disinkronkan dengan Google Sheets!', 'success');
+                            }
+                        }
+                    } else {
+                        updateGoogleSheetStatusUI('error');
+                        if (showFeedback) {
+                            showToast('Sinkronisasi Sheet gagal. Data tetap tersimpan aman di browser lokal.', 'error');
+                        }
                     }
                 } catch (err) {
                     updateGoogleSheetStatusUI('error');
                     if (showFeedback) {
-                        showToast('Gagal terhubung ke Google Sheets. Periksa izin akses Web App.', 'error');
+                        showToast('Gagal terhubung ke Google Sheets. Data tetap aman di penyimpanan lokal.', 'error');
                     }
                 } finally {
                     isSyncingGsheet = false;
