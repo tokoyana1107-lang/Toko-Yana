@@ -217,16 +217,38 @@
                 <!-- TAB 1: DASHBOARD RINGKASAN                                -->
                 <!-- ========================================================= -->
                 <section id="tab-dashboard" class="tab-content space-y-6">
-                    <!-- 4 Kartu Statistik -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <!-- 6 Kartu Statistik (Arus Kas & Keuntungan + Piutang) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                         <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start justify-between">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Uang Masuk</p>
                                 <h3 id="stat-cash-in" class="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1.5">Rp 0</h3>
-                                <p class="text-xs text-slate-500 mt-1">Tunai, DP & Angsuran dibayar</p>
+                                <p id="stat-cash-in-detail" class="text-xs text-slate-500 mt-1">Tunai, DP, Angsuran & Kas Masuk</p>
                             </div>
                             <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                                <i class="ph-duotone ph-wallet text-2xl"></i>
+                                <i class="ph-duotone ph-arrow-circle-down text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Uang Keluar</p>
+                                <h3 id="stat-cash-out" class="text-xl sm:text-2xl font-extrabold text-rose-600 mt-1.5">Rp 0</h3>
+                                <p id="stat-cash-out-detail" class="text-xs text-slate-500 mt-1">Kulakan / Modal Barang & Operasional</p>
+                            </div>
+                            <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                                <i class="ph-duotone ph-arrow-circle-up text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-indigo-200/90 shadow-xs flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-indigo-500">Keuntungan / Laba Penjualan</p>
+                                <h3 id="stat-profit" class="text-xl sm:text-2xl font-extrabold text-indigo-700 mt-1.5">Rp 0</h3>
+                                <p id="stat-profit-detail" class="text-xs text-slate-500 mt-1">Omzet Terjual - HPP/Modal - Beban Keluar</p>
+                            </div>
+                            <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                                <i class="ph-duotone ph-trend-up text-2xl"></i>
                             </div>
                         </div>
 
@@ -254,79 +276,60 @@
 
                         <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start justify-between">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Pelanggan</p>
-                                <h3 id="stat-customers" class="text-xl sm:text-2xl font-extrabold text-slate-800 mt-1.5">0 Orang</h3>
-                                <p id="stat-debtors" class="text-xs text-rose-500 font-medium mt-1">0 orang punya tanggungan</p>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Saldo Kas Bersih & Pelanggan</p>
+                                <h3 id="stat-net-cash" class="text-xl sm:text-2xl font-extrabold text-slate-800 mt-1.5">Rp 0</h3>
+                                <p id="stat-customers" class="text-xs text-slate-500 mt-1">0 Orang • 0 punya tanggungan</p>
                             </div>
                             <div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
-                                <i class="ph-duotone ph-users text-2xl"></i>
+                                <i class="ph-duotone ph-scales text-2xl"></i>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Tagihan Jatuh Tempo / Belum Lunas -->
+                    <!-- Panel Rekap Keuntungan & Catatan Uang Masuk / Keluar -->
                     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-                        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                        <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
-                                    <i class="ph-duotone ph-bell-ringing text-xl"></i>
+                                <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                    <i class="ph-duotone ph-arrows-left-right text-xl"></i>
                                 </div>
                                 <div>
-                                    <h2 class="font-bold text-slate-900 text-base">Daftar Tagihan Utang & Kredit Aktif</h2>
-                                    <p class="text-xs text-slate-500">Klik nama orang untuk melihat semua tagihan berjalan, atau tagih via WhatsApp</p>
+                                    <h2 class="font-bold text-slate-900 text-base">Arus Kas (Uang Masuk & Keluar) & Keuntungan</h2>
+                                    <p class="text-xs text-slate-500">Catat uang masuk tambahan atau uang keluar (kulakan barang, listrik, transport, belanja toko)</p>
                                 </div>
                             </div>
-                            <button type="button" onclick="switchTab('transaksi')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800">Lihat Semua →</button>
-                        </div>
-                        <div id="dashboard-due-list" class="divide-y divide-slate-100"></div>
-                    </div>
-
-                    <!-- Transaksi Terbaru -->
-                    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-                        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                                    <i class="ph-duotone ph-clock-clockwise text-xl"></i>
-                                </div>
-                                <div>
-                                    <h2 class="font-bold text-slate-900 text-base">Transaksi Terbaru</h2>
-                                    <p class="text-xs text-slate-500">Catatan penjualan tunai, utang & kredit terakhir</p>
-                                </div>
-                            </div>
-                            <button type="button" onclick="openTransactionModal()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800">+ Catat Baru</button>
-                        </div>
-                        <div id="dashboard-recent-list" class="divide-y divide-slate-100"></div>
-                    </div>
-                </section>
-
-                <!-- ========================================================= -->
-                <!-- TAB 2: DATA TRANSAKSI (TUNAI, UTANG & KREDIT)             -->
-                <!-- ========================================================= -->
-                <section id="tab-transaksi" class="tab-content hidden space-y-5">
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                            <div class="flex flex-wrap gap-1.5">
-                                <button type="button" onclick="setTrxTypeFilter('ALL')" data-trxfilter="ALL" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white transition">Semua</button>
-                                <button type="button" onclick="setTrxTypeFilter('TUNAI')" data-trxfilter="TUNAI" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Tunai</button>
-                                <button type="button" onclick="setTrxTypeFilter('UTANG')" data-trxfilter="UTANG" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Utang / Kasbon</button>
-                                <button type="button" onclick="setTrxTypeFilter('KREDIT')" data-trxfilter="KREDIT" class="trx-filter-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">Kredit / Cicilan</button>
-                            </div>
-
-                            <div class="flex flex-col sm:flex-row gap-2.5 flex-1 md:max-w-md">
-                                <select id="filter-trx-status" onchange="renderTransactions()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="ALL">Semua Status</option>
-                                    <option value="UNPAID">Belum Lunas</option>
-                                    <option value="PAID">Sudah Lunas</option>
-                                </select>
-                                <div class="relative flex-1">
-                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-                                        <i class="ph ph-magnifying-glass text-base"></i>
-                                    </span>
-                                    <input type="text" id="search-trx" oninput="renderTransactions()" placeholder="Cari nama orang / barang..."
-                                        class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white">
-                                </div>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="openCashFlowModal('IN')" class="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold flex items-center gap-1 transition">
+                                    <i class="ph-bold ph-plus-circle"></i>
+                                    <span>Uang Masuk</span>
+                                </button>
+                                <button type="button" onclick="openCashFlowModal('OUT')" class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold flex items-center gap-1 transition">
+                                    <i class="ph-bold ph-minus-circle"></i>
+                                    <span>Uang Keluar</span>
+                                </button>
                             </div>
                         </div>
+
+                        <div id="profit-summary-bar" class="px-5 py-3.5 bg-slate-50 border-b border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                            <div>
+                                <span class="text-slate-400 block">Total Penjualan (Omzet)</span>
+                                <span id="profit-omzet" class="font-extrabold text-slate-900 text-sm">Rp 0</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Modal / HPP Barang</span>
+                                <span id="profit-hpp" class="font-extrabold text-amber-700 text-sm">Rp 0</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Uang Keluar / Beban</span>
+                                <span id="profit-expense" class="font-extrabold text-rose-600 text-sm">Rp 0</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">Keuntungan Bersih</span>
+                                <span id="profit-net" class="font-extrabold text-indigo-700 text-sm">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <div id="dashboard-cashflow-list" class="divide-y divide-slate-100"></div>
                     </div>
 
                     <div id="transactions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -699,11 +702,16 @@
                         class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Harga Total (Rp) *</label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Harga Jual Total (Rp) *</label>
                         <input type="number" id="trx-total" required min="1" step="any" oninput="calculateTrxSummary()" placeholder="0"
                             class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Modal / Kulakan (Rp)</label>
+                        <input type="number" id="trx-cost" min="0" step="any" value="0" oninput="calculateTrxSummary()" placeholder="0"
+                            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-amber-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div id="dp-field-wrapper">
                         <label class="block text-xs font-semibold text-slate-700 mb-1">DP / Bayar Awal (Rp)</label>
@@ -743,14 +751,93 @@
                         class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
 
-                <div class="p-3.5 rounded-xl bg-slate-900 text-white flex items-center justify-between">
-                    <span class="text-xs font-medium text-slate-300">Sisa Tagihan / Piutang:</span>
-                    <span id="trx-remaining-preview" class="text-lg font-extrabold text-amber-400">Rp 0</span>
+                <div class="p-3.5 rounded-xl bg-slate-900 text-white grid grid-cols-2 gap-3">
+                    <div>
+                        <span class="text-[11px] font-medium text-slate-300 block">Sisa Tagihan / Piutang:</span>
+                        <span id="trx-remaining-preview" class="text-base font-extrabold text-amber-400">Rp 0</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[11px] font-medium text-slate-300 block">Estimasi Laba Barang:</span>
+                        <span id="trx-profit-preview" class="text-base font-extrabold text-emerald-400">Rp 0</span>
+                    </div>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-2">
                     <button type="button" onclick="closeTransactionModal()" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">Batal</button>
                     <button type="submit" class="px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition">Simpan Transaksi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 1B: CATAT UANG MASUK / KELUAR                                   -->
+    <!-- ===================================================================== -->
+    <div id="cashflow-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 my-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <i class="ph-duotone ph-arrows-left-right text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 id="cf-modal-title" class="text-base font-bold text-slate-900">Catat Uang Masuk / Keluar</h3>
+                        <p class="text-xs text-slate-500">Pantau arus kas & beban pengeluaran toko</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeCashFlowModal()" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+
+            <form id="cashflow-form" class="space-y-4 mt-4">
+                <input type="hidden" id="cf-id">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Jenis Arus Kas *</label>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="cf-direction" value="IN" class="peer sr-only" checked>
+                            <div class="p-2.5 rounded-xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 text-center transition">
+                                <span class="text-xs font-extrabold text-emerald-700">+ Uang Masuk</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="cf-direction" value="OUT" class="peer sr-only">
+                            <div class="p-2.5 rounded-xl border-2 border-slate-200 peer-checked:border-rose-500 peer-checked:bg-rose-50 text-center transition">
+                                <span class="text-xs font-extrabold text-rose-700">- Uang Keluar</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Keterangan / Keperluan *</label>
+                    <input type="text" id="cf-title" required placeholder="Contoh: Kulakan stok barang / Bayar listrik / Modal tambahan"
+                        class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Nominal (Rp) *</label>
+                        <input type="number" id="cf-amount" required min="1" step="any" placeholder="0"
+                            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal *</label>
+                        <input type="date" id="cf-date" required
+                            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kategori</label>
+                    <input type="text" id="cf-category" placeholder="Contoh: Kulakan / Operasional / Kas Lainnya"
+                        class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div class="flex justify-end gap-2.5 pt-2">
+                    <button type="button" onclick="closeCashFlowModal()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm">Simpan Arus Kas</button>
                 </div>
             </form>
         </div>
@@ -1190,6 +1277,7 @@ function doPost(e) {
                 SETTINGS: 'toko_yana_settings_v2',
                 TRANSACTIONS: 'toko_yana_transactions_v2',
                 CUSTOMERS: 'toko_yana_customers_v2',
+                CASHFLOWS: 'toko_yana_cashflows_v2',
                 SESSION_UNLOCKED: 'toko_yana_unlocked_v2'
             };
 
@@ -1296,13 +1384,42 @@ function doPost(e) {
                     notes: 'Pembayaran tunai lunas di toko',
                     payments: [
                         { id: 'PAY-4', date: getOffsetDate(0), amount: 650000, note: 'Lunas Tunai' }
-                    ]
+                    ],
+                    costAmount: 520000
+                }
+            ];
+
+            const DEFAULT_CASHFLOWS = [
+                {
+                    id: 'CF-101',
+                    direction: 'OUT',
+                    title: 'Kulakan Stok Barang & Sembako',
+                    amount: 2850000,
+                    date: getOffsetDate(-5),
+                    category: 'Kulakan / Modal'
+                },
+                {
+                    id: 'CF-102',
+                    direction: 'OUT',
+                    title: 'Bayar Listrik & Plastik Kemasan Toko',
+                    amount: 175000,
+                    date: getOffsetDate(-1),
+                    category: 'Operasional'
+                },
+                {
+                    id: 'CF-103',
+                    direction: 'IN',
+                    title: 'Setoran Modal Kas Tambahan',
+                    amount: 500000,
+                    date: getOffsetDate(-3),
+                    category: 'Kas Masuk'
                 }
             ];
 
             let appSettings = { ...DEFAULT_SETTINGS };
             let transactions = [];
             let customers = [];
+            let cashFlows = [];
             let currentTypeFilter = 'ALL';
             let activePaymentTrxId = null;
             let activePaymentPersonId = null;
@@ -1642,6 +1759,20 @@ function doPost(e) {
                 if (!skipRealtimePush) scheduleRealtimePush();
             }
 
+            function saveCashFlows(skipRealtimePush = false) {
+                safeStorage.setItem(STORAGE_KEYS.CASHFLOWS, JSON.stringify(cashFlows));
+                refreshAllViews();
+                if (!skipRealtimePush) scheduleRealtimePush();
+            }
+
+            function getTrxCostAmount(trx) {
+                if (!trx) return 0;
+                if (trx.costAmount !== undefined && trx.costAmount !== null && trx.costAmount !== '') {
+                    return Math.max(0, Number(trx.costAmount) || 0);
+                }
+                return Math.round((Number(trx.totalAmount) || 0) * 0.75);
+            }
+
             window.openAppsScriptGuide = function() {
                 const modal = document.getElementById('gsheet-guide-modal');
                 if (modal) {
@@ -1822,7 +1953,9 @@ function doPost(e) {
             }
 
             function renderDashboard() {
-                let totalCashIn = 0;
+                let trxCashIn = 0;
+                let totalOmzet = 0;
+                let totalHpp = 0;
                 let totalUtangRemaining = 0;
                 let utangCount = 0;
                 let totalKreditRemaining = 0;
@@ -1833,9 +1966,14 @@ function doPost(e) {
                 const unpaidList = [];
 
                 transactions.forEach(trx => {
+                    const total = Number(trx.totalAmount) || 0;
+                    const cost = getTrxCostAmount(trx);
                     const paid = getTrxPaidAmount(trx);
                     const rem = getTrxRemaining(trx);
-                    totalCashIn += paid;
+
+                    trxCashIn += paid;
+                    totalOmzet += total;
+                    totalHpp += cost;
 
                     const person = resolvePersonByTrx(trx);
                     const personKey = person ? person.id : (trx.customerName || '').trim().toLowerCase();
@@ -1855,13 +1993,69 @@ function doPost(e) {
                     }
                 });
 
+                let extraCashIn = 0;
+                let extraCashOut = 0;
+                cashFlows.forEach(cf => {
+                    const amt = Number(cf.amount) || 0;
+                    if (cf.direction === 'IN') extraCashIn += amt;
+                    else extraCashOut += amt;
+                });
+
+                const totalCashIn = trxCashIn + extraCashIn;
+                const totalCashOut = extraCashOut;
+                const grossProfit = totalOmzet - totalHpp;
+                const netProfit = grossProfit - totalCashOut;
+                const netCashBalance = totalCashIn - totalCashOut;
+
                 document.getElementById('stat-cash-in').textContent = formatRupiah(totalCashIn);
+                document.getElementById('stat-cash-in-detail').textContent = `Trx: ${formatRupiah(trxCashIn)} + Masuk: ${formatRupiah(extraCashIn)}`;
+                document.getElementById('stat-cash-out').textContent = formatRupiah(totalCashOut);
+                document.getElementById('stat-cash-out-detail').textContent = `${cashFlows.filter(c => c.direction === 'OUT').length} catatan uang keluar`;
+                document.getElementById('stat-profit').textContent = formatRupiah(netProfit);
+                document.getElementById('stat-profit').className = `text-xl sm:text-2xl font-extrabold mt-1.5 ${netProfit >= 0 ? 'text-indigo-700' : 'text-rose-600'}`;
+                document.getElementById('stat-profit-detail').textContent = `Laba kotor barang: ${formatRupiah(grossProfit)} - Keluar: ${formatRupiah(totalCashOut)}`;
+
                 document.getElementById('stat-utang').textContent = formatRupiah(totalUtangRemaining);
                 document.getElementById('stat-utang-count').textContent = `${utangCount} transaksi belum lunas`;
                 document.getElementById('stat-kredit').textContent = formatRupiah(totalKreditRemaining);
                 document.getElementById('stat-kredit-count').textContent = `${kreditCount} kredit aktif berjalan`;
-                document.getElementById('stat-customers').textContent = `${customerSet.size} Orang`;
-                document.getElementById('stat-debtors').textContent = `${debtorSet.size} orang punya tanggungan`;
+                document.getElementById('stat-net-cash').textContent = formatRupiah(netCashBalance);
+                document.getElementById('stat-net-cash').className = `text-xl sm:text-2xl font-extrabold mt-1.5 ${netCashBalance >= 0 ? 'text-emerald-700' : 'text-rose-600'}`;
+                document.getElementById('stat-customers').textContent = `${customerSet.size} Orang • ${debtorSet.size} punya tanggungan`;
+
+                document.getElementById('profit-omzet').textContent = formatRupiah(totalOmzet);
+                document.getElementById('profit-hpp').textContent = formatRupiah(totalHpp);
+                document.getElementById('profit-expense').textContent = formatRupiah(totalCashOut);
+                const profitNetEl = document.getElementById('profit-net');
+                profitNetEl.textContent = formatRupiah(netProfit);
+                profitNetEl.className = `font-extrabold text-sm ${netProfit >= 0 ? 'text-indigo-700' : 'text-rose-600'}`;
+
+                const cfListEl = document.getElementById('dashboard-cashflow-list');
+                const sortedCf = [...cashFlows].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+                if (sortedCf.length === 0) {
+                    cfListEl.innerHTML = `<div class="p-6 text-center text-xs text-slate-400">Belum ada catatan uang masuk/keluar tambahan. Klik tombol di atas untuk menambah.</div>`;
+                } else {
+                    cfListEl.innerHTML = sortedCf.slice(0, 5).map(cf => {
+                        const isIn = cf.direction === 'IN';
+                        return `
+                            <div class="p-4 sm:px-5 flex items-center justify-between gap-3 hover:bg-slate-50/70 transition">
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${isIn ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}">${isIn ? 'UANG MASUK' : 'UANG KELUAR'}</span>
+                                        <span class="font-bold text-slate-800 text-xs sm:text-sm truncate">${escapeHtml(cf.title)}</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 mt-0.5">${formatDateID(cf.date)} • ${escapeHtml(cf.category || 'Umum')}</p>
+                                </div>
+                                <div class="flex items-center gap-2.5 shrink-0">
+                                    <span class="font-extrabold text-sm ${isIn ? 'text-emerald-600' : 'text-rose-600'}">${isIn ? '+' : '-'}${formatRupiah(cf.amount)}</span>
+                                    <button type="button" onclick="deleteCashFlow('${cf.id}')" title="Hapus" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50">
+                                        <i class="ph ph-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
 
                 unpaidList.sort((a, b) => (a.dueDate || '9999-12-31').localeCompare(b.dueDate || '9999-12-31'));
 
@@ -1945,7 +2139,6 @@ function doPost(e) {
                     }).join('');
                 }
             }
-
             window.setTrxTypeFilter = function(type) {
                 currentTypeFilter = type;
                 document.querySelectorAll('.trx-filter-btn').forEach(btn => {
@@ -2585,12 +2778,22 @@ function doPost(e) {
                     dpInput.value = total;
                 }
 
+                const costInputVal = document.getElementById('trx-cost').value;
+                const cost = (costInputVal === '' || costInputVal === undefined)
+                    ? Math.round(total * 0.75)
+                    : Math.max(0, Number(costInputVal) || 0);
+                const estProfit = total - cost;
                 const effectiveDp = type === 'TUNAI' ? total : Math.min(total, dp);
                 const remaining = Math.max(0, total - effectiveDp);
                 const installment = type === 'KREDIT' ? Math.ceil(remaining / tenor) : remaining;
 
                 document.getElementById('trx-installment-est').textContent = formatRupiah(installment);
                 document.getElementById('trx-remaining-preview').textContent = formatRupiah(remaining);
+                const profitPreview = document.getElementById('trx-profit-preview');
+                if (profitPreview) {
+                    profitPreview.textContent = formatRupiah(estProfit);
+                    profitPreview.className = `text-base font-extrabold ${estProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
+                }
             };
 
             window.startTransactionForCustomer = function(custId) {
@@ -2762,6 +2965,7 @@ function doPost(e) {
                 document.getElementById('trx-phone').value = trx.customerPhone || '';
                 document.getElementById('trx-item').value = trx.itemName;
                 document.getElementById('trx-total').value = trx.totalAmount;
+                document.getElementById('trx-cost').value = getTrxCostAmount(trx);
                 document.getElementById('trx-dp').value = trx.dpAmount || 0;
                 document.getElementById('trx-tenor').value = trx.tenor || 1;
                 document.getElementById('trx-date').value = trx.date;
@@ -2978,6 +3182,65 @@ function doPost(e) {
                 );
             };
 
+
+            window.openCashFlowModal = function(direction = 'OUT') {
+                document.getElementById('cashflow-form').reset();
+                document.getElementById('cf-id').value = '';
+                document.getElementById('cf-date').value = getOffsetDate(0);
+                document.getElementById('cf-category').value = direction === 'IN' ? 'Kas Masuk' : 'Kulakan / Operasional';
+                const radio = document.querySelector(`input[name="cf-direction"][value="${direction}"]`);
+                if (radio) radio.checked = true;
+                document.getElementById('cf-modal-title').textContent = direction === 'IN' ? 'Catat Uang Masuk' : 'Catat Uang Keluar';
+                const modal = document.getElementById('cashflow-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            };
+
+            window.closeCashFlowModal = function() {
+                const modal = document.getElementById('cashflow-modal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            };
+
+            window.deleteCashFlow = function(cfId) {
+                showConfirm(
+                    'Hapus Catatan Arus Kas?',
+                    'Catatan uang masuk/keluar ini akan dihapus dari perhitungan kas & keuntungan.',
+                    () => {
+                        cashFlows = cashFlows.filter(c => c.id !== cfId);
+                        saveCashFlows();
+                        showToast('Catatan arus kas dihapus.', 'info');
+                    }
+                );
+            };
+
+            document.getElementById('cashflow-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const checkedDir = document.querySelector('input[name="cf-direction"]:checked');
+                const direction = checkedDir ? checkedDir.value : 'OUT';
+                const title = document.getElementById('cf-title').value.trim();
+                const amount = Math.max(0, Number(document.getElementById('cf-amount').value) || 0);
+                const date = document.getElementById('cf-date').value;
+                const category = document.getElementById('cf-category').value.trim() || (direction === 'IN' ? 'Kas Masuk' : 'Pengeluaran');
+
+                if (!title || amount <= 0) {
+                    showToast('Isi keterangan dan nominal lebih dari Rp 0.', 'error');
+                    return;
+                }
+
+                cashFlows.unshift({
+                    id: 'CF-' + Math.floor(100 + Math.random() * 900) + Date.now().toString().slice(-2),
+                    direction,
+                    title,
+                    amount,
+                    date,
+                    category
+                });
+                saveCashFlows();
+                window.closeCashFlowModal();
+                showToast(direction === 'IN' ? 'Uang masuk berhasil dicatat!' : 'Uang keluar berhasil dicatat!', 'success');
+            });
+
             function bootstrap() {
                 const savedSettings = safeStorage.getItem(STORAGE_KEYS.SETTINGS);
                 if (savedSettings) {
@@ -3017,6 +3280,18 @@ function doPost(e) {
                 } else {
                     customers = [...DEFAULT_CUSTOMERS];
                     saveCustomers();
+                }
+
+                const savedCf = safeStorage.getItem(STORAGE_KEYS.CASHFLOWS);
+                if (savedCf) {
+                    try {
+                        cashFlows = JSON.parse(savedCf);
+                    } catch (e) {
+                        cashFlows = [...DEFAULT_CASHFLOWS];
+                    }
+                } else {
+                    cashFlows = [...DEFAULT_CASHFLOWS];
+                    saveCashFlows();
                 }
 
                 applyStoreBranding();
@@ -3088,6 +3363,10 @@ function doPost(e) {
                     const customerPhone = document.getElementById('trx-phone').value.trim();
                     const itemName = document.getElementById('trx-item').value.trim();
                     const totalAmount = Number(document.getElementById('trx-total').value) || 0;
+                    const rawCostVal = document.getElementById('trx-cost').value;
+                    const costAmount = (rawCostVal === '' || rawCostVal === undefined)
+                        ? Math.round(totalAmount * 0.75)
+                        : Math.max(0, Number(rawCostVal) || 0);
                     const dpAmount = type === 'TUNAI' ? totalAmount : (Number(document.getElementById('trx-dp').value) || 0);
                     const tenor = type === 'KREDIT' ? (Number(document.getElementById('trx-tenor').value) || 1) : 1;
                     const date = document.getElementById('trx-date').value;
@@ -3147,6 +3426,7 @@ function doPost(e) {
                                 customerPhone,
                                 itemName,
                                 totalAmount,
+                                costAmount,
                                 dpAmount,
                                 tenor,
                                 date,
@@ -3176,6 +3456,7 @@ function doPost(e) {
                             customerPhone,
                             itemName,
                             totalAmount,
+                            costAmount,
                             dpAmount,
                             tenor,
                             date,
